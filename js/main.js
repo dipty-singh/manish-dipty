@@ -1,7 +1,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     
-    // --- 1. STAGE TIMINGS (Faster sequence as requested) ---
+    // --- 1. STAGE TIMINGS (Manual scroll for first 2 images) ---
     const stages = {
         ganesh: document.getElementById('stage-ganesh'),
         shiv: document.getElementById('stage-shiv'),
@@ -9,15 +9,50 @@ document.addEventListener('DOMContentLoaded', () => {
         main: document.getElementById('stage-main')
     };
     
-    setTimeout(() => {
-        stages.ganesh.classList.add('hidden');
-        stages.shiv.classList.remove('hidden');
-    }, 3000); // Changed from 4500 to 3000 (Faster)
-
-    setTimeout(() => {
-        stages.shiv.classList.add('hidden');
-        stages.envelope.classList.remove('hidden');
-    }, 6000); // Changed from 9000 to 6000 (Faster)
+    let currentStage = 'ganesh'; // Track which stage we're on
+    
+    // Manual navigation for Ganesh & Shiv Parvati stages
+    function navigateToNextStage() {
+        if (currentStage === 'ganesh') {
+            stages.ganesh.classList.add('hidden');
+            stages.shiv.classList.remove('hidden');
+            currentStage = 'shiv';
+        } else if (currentStage === 'shiv') {
+            stages.shiv.classList.add('hidden');
+            stages.envelope.classList.remove('hidden');
+            currentStage = 'envelope';
+        }
+    }
+    
+    // Scroll detection for manual advancement
+    let lastScrollTime = 0;
+    window.addEventListener('wheel', (e) => {
+        if (currentStage === 'ganesh' || currentStage === 'shiv') {
+            const now = Date.now();
+            if (now - lastScrollTime > 800) { // Debounce scroll
+                if (e.deltaY > 0) { // Scroll down
+                    navigateToNextStage();
+                    lastScrollTime = now;
+                }
+            }
+        }
+    }, { passive: true });
+    
+    // Touch swipe detection for mobile
+    let touchStartY = 0;
+    window.addEventListener('touchstart', (e) => {
+        touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+    
+    window.addEventListener('touchend', (e) => {
+        const touchEndY = e.changedTouches[0].clientY;
+        const diff = touchStartY - touchEndY;
+        if (Math.abs(diff) > 50 && (currentStage === 'ganesh' || currentStage === 'shiv')) { // Swipe threshold
+            if (diff > 0) { // Swipe up (scroll down equivalent)
+                navigateToNextStage();
+            }
+        }
+    }, { passive: true });
 
     // --- 2. ENVELOPE (Perfect Mechanics) ---
     const envTrigger = document.getElementById('envelope-trigger');
@@ -42,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 stages.envelope.classList.add('hidden');
                 stages.main.classList.remove('hidden');
+                currentStage = 'main';
                 initScrollObserver();
                 startRSVPTimer();
             }, 1000);
