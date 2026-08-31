@@ -11,37 +11,49 @@ document.addEventListener('DOMContentLoaded', () => {
     
     let currentStage = 'ganesh'; // Track which stage we're on
     let isTransitioning = false; // Prevent rapid transitions
+    let scrollDirection = 0; // Track scroll direction
+    let lastScrollTime = 0;
     
-    // Manual navigation for Ganesh & Shiv Parvati stages
+    // Manual navigation for Ganesh & Shiv Parvati stages with smooth animation
     function navigateToNextStage() {
         if (isTransitioning) return;
         isTransitioning = true;
         
         if (currentStage === 'ganesh') {
+            // Smooth fade out with transition
+            stages.ganesh.style.transition = 'opacity 1s ease-out';
             stages.ganesh.classList.add('hidden');
-            // Wait for fade out before showing next
+            
+            // Wait for fade out, then show next with fade in
             setTimeout(() => {
+                stages.shiv.style.transition = 'opacity 1s ease-in';
                 stages.shiv.classList.remove('hidden');
                 currentStage = 'shiv';
                 isTransitioning = false;
-            }, 400);
+            }, 600);
         } else if (currentStage === 'shiv') {
+            // Smooth fade out with transition
+            stages.shiv.style.transition = 'opacity 1s ease-out';
             stages.shiv.classList.add('hidden');
+            
             setTimeout(() => {
+                stages.envelope.style.transition = 'opacity 1s ease-in';
                 stages.envelope.classList.remove('hidden');
                 currentStage = 'envelope';
                 isTransitioning = false;
-            }, 400);
+            }, 600);
         }
     }
     
     // Smooth scroll detection for manual advancement
-    let lastScrollTime = 0;
     window.addEventListener('wheel', (e) => {
         if ((currentStage === 'ganesh' || currentStage === 'shiv') && !isTransitioning) {
             const now = Date.now();
-            if (now - lastScrollTime > 500) { // Smooth debounce
-                if (e.deltaY > 0) { // Scroll down
+            
+            // Debounce scroll events
+            if (now - lastScrollTime > 300) {
+                // Check scroll direction
+                if (e.deltaY > 15) { // Scroll down threshold
                     navigateToNextStage();
                     lastScrollTime = now;
                 }
@@ -49,17 +61,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, { passive: true });
     
-    // Touch swipe detection for mobile
+    // Touch swipe detection for mobile - smooth transitions
     let touchStartY = 0;
+    let touchStartTime = 0;
+    
     window.addEventListener('touchstart', (e) => {
-        touchStartY = e.touches[0].clientY;
+        if (currentStage === 'ganesh' || currentStage === 'shiv') {
+            touchStartY = e.touches[0].clientY;
+            touchStartTime = Date.now();
+        }
     }, { passive: true });
     
     window.addEventListener('touchend', (e) => {
         if (isTransitioning || (currentStage !== 'ganesh' && currentStage !== 'shiv')) return;
+        
         const touchEndY = e.changedTouches[0].clientY;
+        const touchDuration = Date.now() - touchStartTime;
         const diff = touchStartY - touchEndY;
-        if (Math.abs(diff) > 50) { // Swipe threshold
+        
+        // Swipe detection with velocity consideration for smooth experience
+        if (Math.abs(diff) > 50 && touchDuration < 1000) {
             if (diff > 0) { // Swipe up (scroll down equivalent)
                 navigateToNextStage();
             }
@@ -85,8 +106,10 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Wait for card to fully slide up (1.2s transition), then fade screen
         setTimeout(() => {
+            stages.envelope.style.transition = 'opacity 1s ease-out';
             stages.envelope.classList.add('hidden');
             setTimeout(() => {
+                stages.main.style.transition = 'opacity 1s ease-in';
                 stages.main.classList.remove('hidden');
                 currentStage = 'main';
                 initScrollObserver();
