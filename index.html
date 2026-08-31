@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Manish & Dipty | Wedding</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Audio -->
+    <audio id="bg-music" loop>
+        <source src="music/parvati-boli-shankar-se.mp3" type="audio/mpeg">
+    </audio>
+    <button id="music-toggle" class="floating-btn hidden">🎵</button>
+
+    <!-- Stage 1: Ganesh Ji (Full Background) -->
+    <section id="stage-ganesh" class="screen active bg-ivory">
+        <img src="images/ganesh.jpg" class="full-bg-img zoom-anim" alt="Ganesh Ji">
+        <div class="soft-overlay"></div>
+        <div class="content fade-in text-glow-light">
+            <h2 class="hindi text-gold">श्री गणेशाय नमः</h2>
+            <p class="subtitle text-dark mt-1">With the blessings of Ganesh Ji,<br>every beautiful journey begins.</p>
+        </div>
+    </section>
+
+    <!-- Stage 2: Shiv Parvati (Full Background) -->
+    <section id="stage-shiv" class="screen hidden bg-blush">
+        <img src="images/shiv-parvati.jpg" class="full-bg-img pan-anim" alt="Shiv Parvati">
+        <div class="soft-overlay"></div>
+        <div class="content fade-in text-glow-light">
+            <p class="script-large text-dark">Inspired by the eternal love of<br>Mahadev & Maa Parvati</p>
+        </div>
+    </section>
+
+    <!-- Stage 3: Perfected Envelope -->
+    <section id="stage-envelope" class="screen hidden bg-sage">
+        <div class="envelope-scene fade-in">
+            <!-- 3D Perspective Wrapper -->
+            <div class="envelope-container" id="envelope-trigger">
+                <!-- Back of Envelope -->
+                <div class="env-back"></div>
+                
+                <!-- The Card -->
+                <div class="env-card" id="inner-card">
+                    <h2 class="serif text-dark" style="font-size: 2.2rem; margin-top: 20px;">M & D</h2>
+                    <p class="subtitle text-gold mt-1">You're Invited</p>
+                </div>
+                
+                <!-- Side & Bottom Flaps -->
+                <div class="env-bottom"></div>
+                
+                <!-- Hinged Top Flap -->
+                <div class="env-flap-wrapper" id="top-flap">
+                    <div class="env-top-triangle"></div>
+                    <div class="wax-seal" id="seal">M|D</div>
+                </div>
+            </div>
+            <p class="tap-hint blink mt-2">Tap to open</p>
+        </div>
+    </section>
+
+    <!-- Stage 4: Main Minimalist Invitation -->
+    <main id="stage-main" class="hidden bg-ivory">
+        
+        <!-- Hero Section with Slideshow -->
+        <section class="hero spacer text-center fade-up">
+            <h1 class="couple-name serif text-dark" style="margin-bottom: 30px;">Manish<br><span class="text-blush italic">&</span><br>Dipty</h1>
+            
+            <!-- Slideshow Arch -->
+            <div class="arch-frame large-arch slideshow-container">
+                <img src="images/couple-1.jpg" alt="Couple Photo 1" class="slide active">
+                <img src="images/couple-2.jpg" alt="Couple Photo 2" class="slide">
+                <img src="images/couple-3.jpg" alt="Couple Photo 3" class="slide">
+            </div>
+
+            <p class="body-text text-dark mt-2 mx-auto" style="max-width: 300px;">
+                Together with their families, invite you to celebrate the beginning of their forever.
+            </p>
+        </section>
+
+        <!-- Scratch to Reveal -->
+        <section class="scratch-section spacer bg-blush text-center fade-up">
+            <h3 class="serif text-dark">Save the Date</h3>
+            <p class="subtitle" style="margin-bottom: 25px;">Scratch below to reveal</p>
+            
+            <div class="scratch-wrapper">
+                <div class="revealed-date serif">11 FEB 2027</div>
+                <canvas id="scratch-card"></canvas>
+            </div>
+        </section>
+
+        <!-- Countdown -->
+        <section id="countdown-section" class="spacer bg-sage text-center hidden-initial fade-up">
+            <p class="script-large text-dark">The countdown begins...</p>
+            <div class="countdown-flex mt-2">
+                <div class="cd-item"><span id="cd-days" class="serif">00</span><small>Days</small></div>
+                <div class="cd-item"><span id="cd-hours" class="serif">00</span><small>Hrs</small></div>
+                <div class="cd-item"><span id="cd-mins" class="serif">00</span><small>Min</small></div>
+                <div class="cd-item"><span id="cd-secs" class="serif">00</span><small>Sec</small></div>
+            </div>
+        </section>
+
+        <!-- Events -->
+        <section id="events-section" class="spacer bg-ivory text-center hidden-initial">
+            <h2 class="serif text-dark mb-2 fade-up">The Celebrations</h2>
+            
+            <div class="event-list">
+                <!-- Mehndi -->
+                <div class="event-item fade-up">
+                    <h3 class="serif text-gold">Mehndi</h3>
+                    <p class="italic text-muted">Let the colours of love paint our beginning.</p>
+                    <div class="event-details mt-1">
+                        <p>10 February 2027 • 5:00 PM</p>
+                        <p>The Roaman Palace, Sec 121 Noida<br>Regalia Hall, 2nd Floor</p>
+                    </div>
+                    <a href="https://www.google.com/maps/place/The+Roman+Palace+Banquet/@28.5997881,77.3995664,17z/data=!3m1!4b1!4m6!3m5!1s0x390cef4351b39e39:0x1f5415e6f2ead789!8m2!3d28.5997881!4d77.3995664!16s%2Fg%2F11vs2_ty1y?entry=ttu&g_ep=EgoyMDI2MDgyNi4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="outline-btn mt-1">Get Directions</a>
+                </div>
+
+                <!-- Haldi -->
+                <div class="event-item fade-up">
+                    <h3 class="serif text-gold">Haldi</h3>
+                    <p class="italic text-muted">Sunshine, laughter and endless love.</p>
+                    <div class="event-details mt-1">
+                        <p>11 February 2027 • 10:00 AM</p>
+                        <p>The Roaman Palace, Sec 121 Noida<br>Regalia Hall, 2nd Floor</p>
+                    </div>
+                    <a href="https://www.google.com/maps/place/The+Roman+Palace+Banquet/@28.5997881,77.3995664,17z/data=!3m1!4b1!4m6!3m5!1s0x390cef4351b39e39:0x1f5415e6f2ead789!8m2!3d28.5997881!4d77.3995664!16s%2Fg%2F11vs2_ty1y?entry=ttu&g_ep=EgoyMDI2MDgyNi4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="outline-btn mt-1">Get Directions</a>
+                </div>
+
+                <!-- Wedding -->
+                <div class="event-item highlight-event bg-blush fade-up">
+                    <h3 class="serif text-dark">The Wedding</h3>
+                    <p class="italic text-muted">The day we say forever.</p>
+                    <div class="event-details mt-1">
+                        <p>11 February 2027 • 8:00 PM</p>
+                        <p>The Roaman Palace, Sec 121 Noida<br>Imperium Hall, Ground Floor</p>
+                    </div>
+                    <a href="https://www.google.com/maps/place/The+Roman+Palace+Banquet/@28.5997881,77.3995664,17z/data=!3m1!4b1!4m6!3m5!1s0x390cef4351b39e39:0x1f5415e6f2ead789!8m2!3d28.5997881!4d77.3995664!16s%2Fg%2F11vs2_ty1y?entry=ttu&g_ep=EgoyMDI2MDgyNi4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="solid-btn mt-1">Get Directions</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- RSVP Form -->
+        <section class="spacer bg-sage text-center fade-up" id="rsvp-anchor">
+            <h2 class="serif text-dark">RSVP</h2>
+            <p class="subtitle" style="margin-bottom: 25px;">Will you be joining us?</p>
+            
+            <form id="rsvp-form" class="minimal-form">
+                
+                <div class="toggle-group">
+                    <input type="radio" name="response" id="opt-yes" value="Yes" required>
+                    <label for="opt-yes" class="toggle-btn">Joyfully Accept</label>
+                    
+                    <input type="radio" name="response" id="opt-no" value="No">
+                    <label for="opt-no" class="toggle-btn">Regretfully Decline</label>
+                </div>
+                
+                <div id="rsvp-details" class="hidden-initial mt-2 form-fields">
+                    <input type="text" name="name" class="clean-input" placeholder="Guest Name(s)">
+                    
+                    <div id="guest-counter" class="counter-box mt-1">
+                        <label class="subtitle">Number of Guests</label>
+                        <div class="counter-controls">
+                            <button type="button" id="btn-minus">−</button>
+                            <input type="number" id="guest-count" name="guestCount" value="1" readonly>
+                            <button type="button" id="btn-plus">+</button>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="solid-btn w-100 mt-2">Send RSVP</button>
+                </div>
+                
+                <p id="rsvp-msg" class="msg-box hidden-initial mt-1"></p>
+            </form>
+        </section>
+    </main>
+
+    <!-- Modal Popup -->
+    <div id="rsvp-modal" class="modal-bg hidden-initial">
+        <div class="modal-card bg-ivory text-center">
+            <button class="close-btn" id="close-modal">✕</button>
+            <h2 class="serif text-dark">Before you go...</h2>
+            <p class="subtitle mb-2">We would love to celebrate with you.</p>
+            
+            <form id="popup-form" class="minimal-form">
+                <div class="toggle-group flex-col">
+                    <input type="radio" name="response" id="pop-yes" value="Yes" required>
+                    <label for="pop-yes" class="toggle-btn">Yes, I'll be there!</label>
+                    
+                    <input type="radio" name="response" id="pop-no" value="No">
+                    <label for="pop-no" class="toggle-btn">I have to miss it</label>
+                </div>
+                
+                <!-- NEW: Popup Guest Counter -->
+                <div id="pop-guest-counter" class="counter-box mt-1 hidden-initial">
+                    <label class="subtitle" style="font-size:0.75rem;">Number of Guests</label>
+                    <div class="counter-controls">
+                        <button type="button" id="btn-minus-pop">−</button>
+                        <input type="number" id="guest-count-pop" name="guestCount" value="1" readonly>
+                        <button type="button" id="btn-plus-pop">+</button>
+                    </div>
+                </div>
+
+                <input type="text" name="name" class="clean-input mt-1" placeholder="Your Name" required>
+                <button type="submit" class="solid-btn w-100 mt-1">Submit</button>
+                <p id="popup-msg" class="msg-box hidden-initial mt-1"></p>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
