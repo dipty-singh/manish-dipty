@@ -144,8 +144,85 @@
         </div>
     </section>
 
+    <!-- NEW SECTION 1: Dipty & Manish Story Section -->
+    <section id="story-section" class="spacer bg-sage text-center hidden-initial">
+        <p class="subtitle text-gold fade-up">Our Journey</p>
+        <h2 class="serif text-dark mb-2 fade-up">Dipty & Manish</h2>
+
+        <div class="story-grid">
+            <!-- Row 1: Photo 1 -->
+            <div class="story-card fade-up">
+                <div class="story-img-frame">
+                    <img src="images/story-1.jpg" alt="First met at Banaras" onerror="this.src='https://via.placeholder.com/400x500/E8EDE7/2C3338?text=Banaras'">
+                </div>
+                <p class="story-caption">1. First met at Banaras</p>
+            </div>
+
+            <!-- Row 1: Photo 2 -->
+            <div class="story-card fade-up">
+                <div class="story-img-frame">
+                    <img src="images/story-2.jpg" alt="Worked in the same office" onerror="this.src='https://via.placeholder.com/400x500/E8EDE7/2C3338?text=Office'">
+                </div>
+                <p class="story-caption">2. Worked in the same office, same division, seated back-to-back</p>
+            </div>
+
+            <!-- Row 1: Photo 3 -->
+            <div class="story-card fade-up">
+                <div class="story-img-frame">
+                    <img src="images/story-3.jpg" alt="Where our love story began" onerror="this.src='https://via.placeholder.com/400x500/E8EDE7/2C3338?text=Love+Story'">
+                </div>
+                <p class="story-caption">3. Where our love story began</p>
+            </div>
+
+            <!-- Row 2: Photo 4 -->
+            <div class="story-card fade-up">
+                <div class="story-img-frame">
+                    <img src="images/story-4.jpg" alt="Families meeting" onerror="this.src='https://via.placeholder.com/400x500/E8EDE7/2C3338?text=Families'">
+                </div>
+                <p class="story-caption">4. Families meeting</p>
+            </div>
+
+            <!-- Row 2: Photo 5 -->
+            <div class="story-card fade-up">
+                <div class="story-img-frame">
+                    <img src="images/story-5.jpg" alt="Engagement" onerror="this.src='https://via.placeholder.com/400x500/E8EDE7/2C3338?text=Engagement'">
+                </div>
+                <p class="story-caption">5. Engagement</p>
+            </div>
+
+            <!-- Row 2: Photo 6 -->
+            <div class="story-card fade-up">
+                <div class="story-img-frame">
+                    <img src="images/story-6.jpg" alt="Forever began" onerror="this.src='https://via.placeholder.com/400x500/E8EDE7/2C3338?text=Forever+Began'">
+                </div>
+                <p class="story-caption">6. Forever began</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW SECTION 2: The Happy Couple & Instagram IDs -->
+    <section id="couple-section" class="spacer bg-ivory text-center hidden-initial">
+        <h2 class="serif text-dark fade-up">The Happy Couple</h2>
+        <br>
+<!--        <p class="subtitle text-muted mb-2 fade-up">Get in touch with us</p>-->
+
+        <div class="insta-links-container fade-up">
+            <a href="https://instagram.com/dipty.somewhere" target="_blank" rel="noopener" class="insta-card">
+                <div class="insta-icon">📸</div>
+                <span class="insta-name serif">Dipty</span>
+                <span class="insta-handle">@dipty.somewhere</span>
+            </a>
+
+            <a href="https://instagram.com/manish_o_o" target="_blank" rel="noopener" class="insta-card">
+                <div class="insta-icon">📸</div>
+                <span class="insta-name serif">Manish</span>
+                <span class="insta-handle">@manish_o_o</span>
+            </a>
+        </div>
+    </section>
+
     <!-- RSVP Form -->
-    <section class="spacer bg-sage text-center fade-up" id="rsvp-anchor">
+    <section class="spacer bg-sage text-center hidden-initial fade-up" id="rsvp-anchor">
         <h2 class="serif text-dark">RSVP</h2>
         <p class="subtitle" style="margin-bottom: 25px;">Will you be joining us?</p>
 
@@ -180,37 +257,37 @@
 </main>
 
 <!-- Modal Popup -->
-<div id="rsvp-modal" class="modal-bg hidden-initial">
-    <div class="modal-card bg-ivory text-center">
-        <button class="close-btn" id="close-modal">✕</button>
-        <h2 class="serif text-dark">Before you go...</h2>
-        <p class="subtitle mb-2">We would love to celebrate with you.</p>
+<!--<div id="rsvp-modal" class="modal-bg hidden-initial">-->
+<!--    <div class="modal-card bg-ivory text-center">-->
+<!--        <button class="close-btn" id="close-modal">✕</button>-->
+<!--        <h2 class="serif text-dark">Before you go...</h2>-->
+<!--        <p class="subtitle mb-2">We would love to celebrate with you.</p>-->
 
-        <form id="popup-form" class="minimal-form">
-            <div class="toggle-group flex-col">
-                <input type="radio" name="response" id="pop-yes" value="Yes" required>
-                <label for="pop-yes" class="toggle-btn">Yes, I'll be there!</label>
+<!--        <form id="popup-form" class="minimal-form">-->
+<!--            <div class="toggle-group flex-col">-->
+<!--                <input type="radio" name="response" id="pop-yes" value="Yes" required>-->
+<!--                <label for="pop-yes" class="toggle-btn">Yes, I'll be there!</label>-->
 
-                <input type="radio" name="response" id="pop-no" value="No">
-                <label for="pop-no" class="toggle-btn">I have to miss it</label>
-            </div>
+<!--                <input type="radio" name="response" id="pop-no" value="No">-->
+<!--                <label for="pop-no" class="toggle-btn">I have to miss it</label>-->
+<!--            </div>-->
 
-            <!-- NEW: Popup Guest Counter -->
-            <div id="pop-guest-counter" class="counter-box mt-1 hidden-initial">
-                <label class="subtitle" style="font-size:0.75rem;">Number of Guests</label>
-                <div class="counter-controls">
-                    <button type="button" id="btn-minus-pop">−</button>
-                    <input type="number" id="guest-count-pop" name="guestCount" value="1" readonly>
-                    <button type="button" id="btn-plus-pop">+</button>
-                </div>
-            </div>
+<!--            &lt;!&ndash; NEW: Popup Guest Counter &ndash;&gt;-->
+<!--            <div id="pop-guest-counter" class="counter-box mt-1 hidden-initial">-->
+<!--                <label class="subtitle" style="font-size:0.75rem;">Number of Guests</label>-->
+<!--                <div class="counter-controls">-->
+<!--                    <button type="button" id="btn-minus-pop">−</button>-->
+<!--                    <input type="number" id="guest-count-pop" name="guestCount" value="1" readonly>-->
+<!--                    <button type="button" id="btn-plus-pop">+</button>-->
+<!--                </div>-->
+<!--            </div>-->
 
-            <input type="text" name="name" class="clean-input mt-1" placeholder="Your Name" required>
-            <button type="submit" class="solid-btn w-100 mt-1">Submit</button>
-            <p id="popup-msg" class="msg-box hidden-initial mt-1"></p>
-        </form>
-    </div>
-</div>
+<!--            <input type="text" name="name" class="clean-input mt-1" placeholder="Your Name" required>-->
+<!--            <button type="submit" class="solid-btn w-100 mt-1">Submit</button>-->
+<!--            <p id="popup-msg" class="msg-box hidden-initial mt-1"></p>-->
+<!--        </form>-->
+<!--    </div>-->
+<!--</div>-->
 
 <link href="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.css" rel="stylesheet">
 <script src="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.js"></script>

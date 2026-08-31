@@ -143,12 +143,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 setTimeout(() => {
                     canvas.style.display = 'none';
-                    document.getElementById('countdown-section').classList.remove('hidden-initial');
-                    document.getElementById('events-section').classList.remove('hidden-initial');
+
+                    const flowOrder = [
+                        'countdown-section',
+                        'events-section',
+                        'story-section',
+                        'couple-section',
+                        'rsvp-anchor'
+                    ];
+
+                    flowOrder.forEach(id => {
+                        document.getElementById(id)?.classList.remove('hidden-initial');
+                    });
+
                     setTimeout(() => {
-                        document.getElementById('countdown-section').classList.add('visible');
-                        document.getElementById('events-section').querySelectorAll('.fade-up').forEach(el => el.classList.add('visible'));
+                        flowOrder.forEach(id => {
+                            const section = document.getElementById(id);
+                            if (section) {
+                                section.classList.add('visible');
+                                section.querySelectorAll('.fade-up').forEach(el => el.classList.add('visible'));
+                            }
+                        });
                     }, 50);
+
                     startCountdown();
                 }, 1000);
             }
@@ -375,7 +392,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (anchor) {
                     const rect = anchor.getBoundingClientRect();
                     if(!(rect.top >= 0 && rect.bottom <= window.innerHeight + 200)) {
-                        rsvpModal.classList.remove('hidden-initial');
+                        rsvpModal?.classList.remove('hidden-initial');
                         sessionStorage.setItem('rsvpPopupShown', 'true');
                     }
                 }
