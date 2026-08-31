@@ -32,7 +32,7 @@ body { background-color: var(--ivory); color: var(--dark); font-family: 'Lato', 
 .text-muted { color: var(--muted); }
 
 /* Utilities */
-.hidden { opacity: 0; visibility: hidden; pointer-events: none; transition: 1s ease; }
+.hidden { opacity: 0; visibility: hidden; pointer-events: none; transition: 0.8s ease; }
 .hidden-initial { display: none !important; }
 .text-center { text-align: center; }
 .mt-1 { margin-top: 1rem; } .mt-2 { margin-top: 2rem; } .mb-2 { margin-bottom: 2rem; }
@@ -43,19 +43,17 @@ body { background-color: var(--ivory); color: var(--dark); font-family: 'Lato', 
 @keyframes blink { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
 
 /* Screens Base */
-.screen { position: fixed; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; z-index: 100; transition: opacity 1.2s ease, visibility 1.2s; }
+.screen { position: fixed; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; z-index: 100; transition: opacity 0.8s ease, visibility 0.8s; }
 .content { position: relative; z-index: 3; display: flex; flex-direction: column; align-items: center; padding: 40px 20px; text-align: center; width: 100%;}
 .text-glow-light { text-shadow: 0 0 20px rgba(250, 249, 246, 0.9), 0 0 10px rgba(250, 249, 246, 0.8); }
 
-/* Full Background Images (For Ganesh & Shiv) */
+/* Full Background Images (For Ganesh & Shiv) - NO ZOOM/PAN */
 .full-bg-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
 .soft-overlay { position: absolute; inset: 0; background: linear-gradient(to top, var(--ivory) 5%, rgba(250, 249, 246, 0.4) 40%, transparent 100%); z-index: 2; }
 
-/* Faster animations for background zooming */
-.zoom-anim { animation: smoothZoom 8s ease-out forwards; }
-.pan-anim { animation: smoothPan 8s ease-out forwards; }
-@keyframes smoothZoom { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
-@keyframes smoothPan { 0% { transform: scale(1.1) translateY(0); } 100% { transform: scale(1.1) translateY(-5%); } }
+/* Remove animations for Ganesh & Shiv images */
+.zoom-anim { animation: none; }
+.pan-anim { animation: none; }
 
 /* Slideshow Arch */
 .arch-frame { overflow: hidden; border-radius: 50vw 50vw 0 0; }
@@ -71,11 +69,11 @@ body { background-color: var(--ivory); color: var(--dark); font-family: 'Lato', 
     perspective: 1200px; /* Crucial for real 3D fold */
 }
 
-.env-back { position: absolute; inset: 0; background: #D5DCD4; border-radius: 4px; box-shadow: 0 15px 40px rgba(0,0,0,0.15);}
+.env-back { position: absolute; inset: 0; background: #D5DCD4; border-radius: 4px; box-shadow: 0 15px 40px rgba(0,0,0,0.15); overflow: hidden;}
 
 /* The Card (Hidden perfectly inside initially) */
 .env-card {
-    position: absolute; bottom: 5px; left: 10px; right: 10px; height: 195px;
+    position: absolute; bottom: 0; left: 0; right: 0; height: 100%;
     background: #FFFFFF; border-radius: 4px; box-shadow: 0 0 10px rgba(0,0,0,0.05);
     display: flex; flex-direction: column; justify-content: flex-start; align-items: center;
     border: 1px solid rgba(197, 160, 89, 0.3); z-index: 2;
@@ -86,13 +84,13 @@ body { background-color: var(--ivory); color: var(--dark); font-family: 'Lato', 
 .env-bottom {
     position: absolute; bottom: 0; left: 0; width: 100%; height: 100%;
     background: #E8EDE7; z-index: 4; border-radius: 0 0 4px 4px;
-    clip-path: polygon(0 100%, 100% 100%, 100% 35%, 50% 65%, 0 35%);
+    clip-path: polygon(0 100%, 100% 100%, 100% 45%, 50% 70%, 0 45%);
     filter: drop-shadow(0 -3px 5px rgba(0,0,0,0.08));
 }
 
 /* Top Flap (Hinged at the very top) */
 .env-flap-wrapper {
-    position: absolute; top: 0; left: 0; width: 100%; height: 60%;
+    position: absolute; top: 0; left: 0; width: 100%; height: 55%;
     transform-origin: top; z-index: 5; /* Starts ABOVE bottom flap */
     transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
     transform-style: preserve-3d;
@@ -107,13 +105,14 @@ body { background-color: var(--ivory); color: var(--dark); font-family: 'Lato', 
 }
 
 .wax-seal {
-    position: absolute; bottom: -5px; left: 50%;
+    position: absolute; bottom: -10px; left: 50%;
     transform: translate(-50%, 50%); /* Locks perfectly to tip */
     width: 55px; height: 55px; background: var(--dark); border-radius: 50%;
     display: flex; justify-content: center; align-items: center;
     color: var(--gold); font-family: 'Cormorant Garamond', serif; font-size: 1.1rem;
     border: 1.5px solid var(--gold); box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     transition: opacity 0.3s;
+    z-index: 10;
 }
 
 /* --- THE OPEN ANIMATION --- */
@@ -208,4 +207,6 @@ canvas { position: absolute; inset: 0; z-index: 2; cursor: crosshair; touch-acti
 @keyframes simpleFade { to { opacity: 1; } }
 
 /* Floating Music */
-.floating-btn { position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; border-radius: 50%; background: var(--ivory); border: 1px solid var(--gold); box-shadow: 0 5px 15px rgba(0,0,0,0.05); font-size: 1.2rem; cursor: pointer; z-index: 150; }
+.floating-btn { position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; border-radius: 50%; background: var(--ivory); border: 1px solid var(--gold); box-shadow: 0 5px 15px rgba(0,0,0,0.1); z-index: 150; cursor: pointer; transition: 0.3s; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; }
+.floating-btn:hover { box-shadow: 0 8px 25px rgba(197, 160, 89, 0.3); }
+.floating-btn.hidden { opacity: 0; pointer-events: none; }

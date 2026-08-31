@@ -10,26 +10,37 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     
     let currentStage = 'ganesh'; // Track which stage we're on
+    let isTransitioning = false; // Prevent rapid transitions
     
     // Manual navigation for Ganesh & Shiv Parvati stages
     function navigateToNextStage() {
+        if (isTransitioning) return;
+        isTransitioning = true;
+        
         if (currentStage === 'ganesh') {
             stages.ganesh.classList.add('hidden');
-            stages.shiv.classList.remove('hidden');
-            currentStage = 'shiv';
+            // Wait for fade out before showing next
+            setTimeout(() => {
+                stages.shiv.classList.remove('hidden');
+                currentStage = 'shiv';
+                isTransitioning = false;
+            }, 400);
         } else if (currentStage === 'shiv') {
             stages.shiv.classList.add('hidden');
-            stages.envelope.classList.remove('hidden');
-            currentStage = 'envelope';
+            setTimeout(() => {
+                stages.envelope.classList.remove('hidden');
+                currentStage = 'envelope';
+                isTransitioning = false;
+            }, 400);
         }
     }
     
-    // Scroll detection for manual advancement
+    // Smooth scroll detection for manual advancement
     let lastScrollTime = 0;
     window.addEventListener('wheel', (e) => {
-        if (currentStage === 'ganesh' || currentStage === 'shiv') {
+        if ((currentStage === 'ganesh' || currentStage === 'shiv') && !isTransitioning) {
             const now = Date.now();
-            if (now - lastScrollTime > 800) { // Debounce scroll
+            if (now - lastScrollTime > 500) { // Smooth debounce
                 if (e.deltaY > 0) { // Scroll down
                     navigateToNextStage();
                     lastScrollTime = now;
@@ -45,9 +56,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
     
     window.addEventListener('touchend', (e) => {
+        if (isTransitioning || (currentStage !== 'ganesh' && currentStage !== 'shiv')) return;
         const touchEndY = e.changedTouches[0].clientY;
         const diff = touchStartY - touchEndY;
-        if (Math.abs(diff) > 50 && (currentStage === 'ganesh' || currentStage === 'shiv')) { // Swipe threshold
+        if (Math.abs(diff) > 50) { // Swipe threshold
             if (diff > 0) { // Swipe up (scroll down equivalent)
                 navigateToNextStage();
             }
@@ -73,14 +85,13 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Wait for card to fully slide up (1.2s transition), then fade screen
         setTimeout(() => {
-            stages.envelope.style.opacity = '0';
+            stages.envelope.classList.add('hidden');
             setTimeout(() => {
-                stages.envelope.classList.add('hidden');
                 stages.main.classList.remove('hidden');
                 currentStage = 'main';
                 initScrollObserver();
                 startRSVPTimer();
-            }, 1000);
+            }, 400);
         }, 1600);
     });
 
