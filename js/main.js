@@ -1,19 +1,33 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Prevent browser from remembering previous scroll position & force page top
+    // Disable browser auto-scroll restoration immediately
     if ('scrollRestoration' in history) {
         history.scrollRestoration = 'manual';
     }
-    window.scrollTo(0, 0);
 
-    // Initialize AOS (Animate On Scroll)
-    if (typeof AOS !== 'undefined') {
-        AOS.init({
-            easing: 'ease-out',
-            duration: 800,
-            offset: 100
-        });
-    }
+    const forceTop = () => {
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    };
+
+    // Force top alignment across all loading lifecycle phases
+    forceTop();
+    window.addEventListener('pageshow', forceTop);
+    window.addEventListener('beforeunload', forceTop);
+
+    document.addEventListener('DOMContentLoaded', () => {
+        forceTop();
+        setTimeout(forceTop, 50);
+        setTimeout(forceTop, 300); // Guarantees position after initial image reflow
+
+        // Initialize AOS safely after load
+        if (typeof AOS !== 'undefined') {
+            AOS.init({
+                easing: 'ease-out',
+                duration: 800,
+                offset: 100,
+                startEvent: 'load' // Prevents AOS from calculating triggers before layout is stable
+            });
+        }
 
     // ==========================================
     // 1. AUDIO & MUSIC CONTROL (Global Unlock)

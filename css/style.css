@@ -45,6 +45,7 @@ body { background-color: var(--ivory); color: var(--dark); font-family: 'Lato', 
 /* Full Screen Sections (Ganesh, Shiv, Envelope) */
 .full-screen-section {
     min-height: 100vh;
+    min-height: 100dvh;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
