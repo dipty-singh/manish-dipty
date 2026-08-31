@@ -1,93 +1,16 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     
-    // --- 1. STAGE TIMINGS (Manual scroll for first 2 images) ---
-    const stages = {
-        ganesh: document.getElementById('stage-ganesh'),
-        shiv: document.getElementById('stage-shiv'),
-        envelope: document.getElementById('stage-envelope'),
-        main: document.getElementById('stage-main')
-    };
-    
-    let currentStage = 'ganesh'; // Track which stage we're on
-    let isTransitioning = false; // Prevent rapid transitions
-    let scrollDirection = 0; // Track scroll direction
-    let lastScrollTime = 0;
-    
-    // Manual navigation for Ganesh & Shiv Parvati stages with smooth animation
-    function navigateToNextStage() {
-        if (isTransitioning) return;
-        isTransitioning = true;
-        
-        if (currentStage === 'ganesh') {
-            // Smooth fade out with transition
-            stages.ganesh.style.transition = 'opacity 1s ease-out';
-            stages.ganesh.classList.add('hidden');
-            
-            // Wait for fade out, then show next with fade in
-            setTimeout(() => {
-                stages.shiv.style.transition = 'opacity 1s ease-in';
-                stages.shiv.classList.remove('hidden');
-                currentStage = 'shiv';
-                isTransitioning = false;
-            }, 600);
-        } else if (currentStage === 'shiv') {
-            // Smooth fade out with transition
-            stages.shiv.style.transition = 'opacity 1s ease-out';
-            stages.shiv.classList.add('hidden');
-            
-            setTimeout(() => {
-                stages.envelope.style.transition = 'opacity 1s ease-in';
-                stages.envelope.classList.remove('hidden');
-                currentStage = 'envelope';
-                isTransitioning = false;
-            }, 600);
-        }
+    // Initialize AOS (Animate On Scroll) for smooth scroll reveal
+    if (typeof AOS !== 'undefined') {
+        AOS.init({
+            easing: 'ease-out',
+            duration: 800,
+            offset: 100
+        });
     }
     
-    // Smooth scroll detection for manual advancement
-    window.addEventListener('wheel', (e) => {
-        if ((currentStage === 'ganesh' || currentStage === 'shiv') && !isTransitioning) {
-            const now = Date.now();
-            
-            // Debounce scroll events
-            if (now - lastScrollTime > 300) {
-                // Check scroll direction
-                if (e.deltaY > 15) { // Scroll down threshold
-                    navigateToNextStage();
-                    lastScrollTime = now;
-                }
-            }
-        }
-    }, { passive: true });
-    
-    // Touch swipe detection for mobile - smooth transitions
-    let touchStartY = 0;
-    let touchStartTime = 0;
-    
-    window.addEventListener('touchstart', (e) => {
-        if (currentStage === 'ganesh' || currentStage === 'shiv') {
-            touchStartY = e.touches[0].clientY;
-            touchStartTime = Date.now();
-        }
-    }, { passive: true });
-    
-    window.addEventListener('touchend', (e) => {
-        if (isTransitioning || (currentStage !== 'ganesh' && currentStage !== 'shiv')) return;
-        
-        const touchEndY = e.changedTouches[0].clientY;
-        const touchDuration = Date.now() - touchStartTime;
-        const diff = touchStartY - touchEndY;
-        
-        // Swipe detection with velocity consideration for smooth experience
-        if (Math.abs(diff) > 50 && touchDuration < 1000) {
-            if (diff > 0) { // Swipe up (scroll down equivalent)
-                navigateToNextStage();
-            }
-        }
-    }, { passive: true });
-
-    // --- 2. ENVELOPE (Perfect Mechanics) ---
+    // --- ENVELOPE (Perfect Mechanics) ---
     const envTrigger = document.getElementById('envelope-trigger');
     const bgMusic = document.getElementById('bg-music');
     const musicToggle = document.getElementById('music-toggle');
@@ -104,17 +27,10 @@ document.addEventListener('DOMContentLoaded', () => {
         bgMusic.play().catch(() => console.log("Audio requires user interaction first."));
         musicToggle.classList.remove('hidden');
         
-        // Wait for card to fully slide up (1.2s transition), then fade screen
+        // Wait for card to fully slide up (1.2s transition), then scroll to main content
         setTimeout(() => {
-            stages.envelope.style.transition = 'opacity 1s ease-out';
-            stages.envelope.classList.add('hidden');
-            setTimeout(() => {
-                stages.main.style.transition = 'opacity 1s ease-in';
-                stages.main.classList.remove('hidden');
-                currentStage = 'main';
-                initScrollObserver();
-                startRSVPTimer();
-            }, 400);
+            const mainElement = document.getElementById('stage-main');
+            mainElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 1600);
     });
 
@@ -126,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
         isPlaying = !isPlaying;
     });
     
-    // --- 2b. COUPLE PHOTO SLIDESHOW ---
+    // --- COUPLE PHOTO SLIDESHOW ---
     const slides = document.querySelectorAll('.slide');
     if (slides.length > 0) {
         let currentSlide = 0;
@@ -137,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 3000); // Changes every 3 seconds
     }
 
-    // --- 3. SCROLL REVEALS ---
+    // --- SCROLL REVEALS ---
     function initScrollObserver() {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -149,8 +65,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
     }
+    
+    initScrollObserver();
 
-    // --- 4. SCRATCH CARD (High Contrast) ---
+    // --- SCRATCH CARD (High Contrast) ---
     const canvas = document.getElementById('scratch-card');
     const ctx = canvas.getContext('2d');
     const wrapper = document.querySelector('.scratch-wrapper');
@@ -222,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- 5. COUNTDOWN ---
+    // --- COUNTDOWN ---
     function startCountdown() {
         const target = new Date(CONFIG.WEDDING_DATE).getTime();
         setInterval(() => {
@@ -237,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1000);
     }
 
-    // --- 6. FORMS & LOGIC ---
+    // --- FORMS & LOGIC ---
     
     // Main Form Elements
     const rsvpRadios = document.querySelectorAll('#rsvp-form input[name="response"]');
@@ -344,7 +262,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => document.getElementById('rsvp-modal').classList.add('hidden-initial'), 2000);
     });
 
-    // --- 7. POPUP LOGIC ---
+    // --- POPUP LOGIC ---
     const rsvpModal = document.getElementById('rsvp-modal');
     document.getElementById('close-modal').addEventListener('click', () => rsvpModal.classList.add('hidden-initial'));
 
@@ -359,4 +277,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }, 30000);
     }
+    
+    startRSVPTimer();
 });

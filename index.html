@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
+ 
     <!-- Audio -->
     <audio id="bg-music" loop>
         <source src="music/parvati-boli-shankar-se.mp3" type="audio/mpeg">
@@ -18,8 +18,8 @@
     <button id="music-toggle" class="floating-btn hidden">🎵</button>
 
     <!-- Stage 1: Ganesh Ji (Full Background) -->
-    <section id="stage-ganesh" class="screen active bg-ivory">
-        <img src="images/ganesh.jpg" class="full-bg-img zoom-anim" alt="Ganesh Ji">
+    <section id="stage-ganesh" class="full-screen-section bg-ivory" data-aos="fade-up" data-aos-easing="linear">
+        <img src="images/ganesh.jpg" class="full-bg-img" alt="Ganesh Ji">
         <div class="soft-overlay"></div>
         <div class="content fade-in text-glow-light">
             <h2 class="hindi text-gold">श्री गणेशाय नमः</h2>
@@ -28,8 +28,8 @@
     </section>
 
     <!-- Stage 2: Shiv Parvati (Full Background) -->
-    <section id="stage-shiv" class="screen hidden bg-blush">
-        <img src="images/shiv-parvati.jpg" class="full-bg-img pan-anim" alt="Shiv Parvati">
+    <section id="stage-shiv" class="full-screen-section bg-blush" data-aos="fade-up" data-aos-easing="linear">
+        <img src="images/shiv-parvati.jpg" class="full-bg-img" alt="Shiv Parvati">
         <div class="soft-overlay"></div>
         <div class="content fade-in text-glow-light">
             <p class="script-large text-dark">Inspired by the eternal love of<br>Mahadev & Maa Parvati</p>
@@ -37,7 +37,7 @@
     </section>
 
     <!-- Stage 3: Perfected Envelope -->
-    <section id="stage-envelope" class="screen hidden bg-sage">
+    <section id="stage-envelope" class="full-screen-section bg-sage" data-aos="fade-up" data-aos-easing="linear">
         <div class="envelope-scene fade-in">
             <!-- 3D Perspective Wrapper -->
             <div class="envelope-container" id="envelope-trigger">
@@ -64,7 +64,7 @@
     </section>
 
     <!-- Stage 4: Main Minimalist Invitation -->
-    <main id="stage-main" class="hidden bg-ivory">
+    <main id="stage-main" class="bg-ivory">
         
         <!-- Hero Section with Slideshow -->
         <section class="hero spacer text-center fade-up">
@@ -117,7 +117,7 @@
                         <p>10 February 2027 • 5:00 PM</p>
                         <p>The Roaman Palace, Sec 121 Noida<br>Regalia Hall, 2nd Floor</p>
                     </div>
-                    <a href="https://www.google.com/maps/place/The+Roman+Palace+Banquet/@28.5997881,77.3995664,17z/data=!3m1!4b1!4m6!3m5!1s0x390cef4351b39e39:0x1f5415e6f2ead789!8m2!3d28.5997881!4d77.3995664!16s%2Fg%2F11vs2_ty1y?entry=ttu&g_ep=EgoyMDI2MDgyNi4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="outline-btn mt-1">Get Directions</a>
+                    <a href="https://www.google.com/maps/place/The+Roman+Palace+Banquet/@28.5997881,77.3995664,17z/data=!3m1!4b1!4m6!3m5!1s0x390cef4351b39e39:0x1f5415e6f2ead789!8m2!3d28.5997881!4[...]
                 </div>
 
                 <!-- Haldi -->
@@ -128,7 +128,7 @@
                         <p>11 February 2027 • 10:00 AM</p>
                         <p>The Roaman Palace, Sec 121 Noida<br>Regalia Hall, 2nd Floor</p>
                     </div>
-                    <a href="https://www.google.com/maps/place/The+Roman+Palace+Banquet/@28.5997881,77.3995664,17z/data=!3m1!4b1!4m6!3m5!1s0x390cef4351b39e39:0x1f5415e6f2ead789!8m2!3d28.5997881!4d77.3995664!16s%2Fg%2F11vs2_ty1y?entry=ttu&g_ep=EgoyMDI2MDgyNi4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="outline-btn mt-1">Get Directions</a>
+                    <a href="https://www.google.com/maps/place/The+Roman+Palace+Banquet/@28.5997881,77.3995664,17z/data=!3m1!4b1!4m6!3m5!1s0x390cef4351b39e39:0x1f5415e6f2ead789!8m2!3d28.5997881!4[...]
                 </div>
 
                 <!-- Wedding -->
@@ -139,7 +139,7 @@
                         <p>11 February 2027 • 8:00 PM</p>
                         <p>The Roaman Palace, Sec 121 Noida<br>Imperium Hall, Ground Floor</p>
                     </div>
-                    <a href="https://www.google.com/maps/place/The+Roman+Palace+Banquet/@28.5997881,77.3995664,17z/data=!3m1!4b1!4m6!3m5!1s0x390cef4351b39e39:0x1f5415e6f2ead789!8m2!3d28.5997881!4d77.3995664!16s%2Fg%2F11vs2_ty1y?entry=ttu&g_ep=EgoyMDI2MDgyNi4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="solid-btn mt-1">Get Directions</a>
+                    <a href="https://www.google.com/maps/place/The+Roman+Palace+Banquet/@28.5997881,77.3995664,17z/data=!3m1!4b1!4m6!3m5!1s0x390cef4351b39e39:0x1f5415e6f2ead789!8m2!3d28.5997881!4[...]
                 </div>
             </div>
         </section>
@@ -212,6 +212,8 @@
         </div>
     </div>
 
+    <link href="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.js"></script>
     <script src="js/config.js"></script>
     <script src="js/main.js"></script>
 </body>
