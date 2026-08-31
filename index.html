@@ -11,11 +11,11 @@
 </head>
 <body>
 
-<!-- Audio -->
-<audio id="bg-music" loop>
+<!-- Audio element configured for instant playback -->
+<audio id="bg-music" loop autoplay playsinline>
     <source src="music/shiv-shakti.mp3" type="audio/mpeg">
 </audio>
-<button id="music-toggle" class="floating-btn hidden">🎵</button>
+<button id="music-toggle" class="floating-btn">🎵</button>
 
 <!-- Stage 1: Ganesh Ji (Full Background) -->
 <section id="stage-ganesh" class="full-screen-section bg-ivory" data-aos="fade-up" data-aos-easing="linear">
@@ -63,8 +63,8 @@
     </div>
 </section>
 
-<!-- Stage 4: Main Minimalist Invitation -->
-<main id="stage-main" class="bg-ivory">
+<!-- Stage 4: Main Minimalist Invitation (Hidden until envelope tap) -->
+<main id="stage-main" class="bg-ivory hidden-initial">
 
     <!-- Hero Section with Slideshow -->
     <section class="hero spacer text-center fade-up">
