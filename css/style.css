@@ -307,6 +307,7 @@ canvas { position: absolute; inset: 0; z-index: 2; cursor: crosshair; touch-acti
 .story-card {
     display: flex;
     flex-direction: column;
+    justify-content: flex-start !important; /* Stacks image & caption from top down */
     align-items: center;
     background: var(--ivory);
     border: 1px solid rgba(44, 51, 56, 0.08);
@@ -342,12 +343,14 @@ canvas { position: absolute; inset: 0; z-index: 2; cursor: crosshair; touch-acti
 }
 
 .story-caption {
+    margin-top: 2px !important;    /* Tight space directly below image */
+    margin-bottom: auto !important; /* Prevents text from sinking to the bottom */
+    vertical-align: top;
     font-size: 0.88rem;
     line-height: 1.4;
     color: var(--dark);
     font-weight: 400;
     text-align: center;
-    margin-top: auto;
 }
 
 /* Screen adaptation while maintaining 3 per row */

@@ -130,46 +130,56 @@ document.addEventListener('DOMContentLoaded', () => {
         canvas.addEventListener('touchend', () => { isDrawing = false; checkScratch(); });
 
         function checkScratch() {
-            if (scratched) return;
-            const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            let transparent = 0;
-            for (let i = 3; i < imgData.data.length; i += 4) {
-                if (imgData.data[i] === 0) transparent++;
-            }
-            if ((transparent / (canvas.width * canvas.height)) * 100 > 45) {
-                scratched = true;
-                canvas.style.transition = 'opacity 1s ease';
-                canvas.style.opacity = '0';
+                    if (scratched) return;
+                    const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    let transparent = 0;
+                    for (let i = 3; i < imgData.data.length; i += 4) {
+                        if (imgData.data[i] === 0) transparent++;
+                    }
+                    if ((transparent / (canvas.width * canvas.height)) * 100 > 35) {
+                        scratched = true;
+                        canvas.style.transition = 'opacity 0.8s ease';
+                        canvas.style.opacity = '0';
 
-                setTimeout(() => {
-                    canvas.style.display = 'none';
+                        setTimeout(() => {
+                            canvas.style.display = 'none';
 
-                    const flowOrder = [
-                        'countdown-section',
-                        'events-section',
-                        'story-section',
-                        'couple-section',
-                        'rsvp-anchor'
-                    ];
+                            const flowOrder = [
+                                'countdown-section',
+                                'events-section',
+                                'story-section',
+                                'couple-section',
+                                'rsvp-anchor'
+                            ];
 
-                    flowOrder.forEach(id => {
-                        document.getElementById(id)?.classList.remove('hidden-initial');
-                    });
+                            // 1. Unhide all sections
+                            flowOrder.forEach(id => {
+                                const sec = document.getElementById(id);
+                                if (sec) {
+                                    sec.classList.remove('hidden-initial');
+                                }
+                            });
 
-                    setTimeout(() => {
-                        flowOrder.forEach(id => {
-                            const section = document.getElementById(id);
-                            if (section) {
-                                section.classList.add('visible');
-                                section.querySelectorAll('.fade-up').forEach(el => el.classList.add('visible'));
+                            // 2. Force visibility on inner elements
+                            document.querySelectorAll('.fade-up').forEach(el => {
+                                el.classList.add('visible');
+                            });
+
+                            // 3. Re-sync observers
+                            initScrollObserver();
+                            if (typeof AOS !== 'undefined') {
+                                AOS.refresh();
                             }
-                        });
-                    }, 50);
 
-                    startCountdown();
-                }, 1000);
-            }
-        }
+                            // 4. Start countdown
+                            startCountdown();
+
+                            // 5. Scroll down smoothly by 320px (adjust this number to scroll more or less)
+                            window.scrollBy({ top: 320, behavior: 'smooth' });
+
+                        }, 800);
+                    }
+                }
     }
 
     // ==========================================
