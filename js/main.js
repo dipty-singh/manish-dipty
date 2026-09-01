@@ -34,16 +34,15 @@ document.addEventListener('DOMContentLoaded', () => {
             if (musicToggle) musicToggle.innerText = '🎵';
             removeUnlockListeners();
         }).catch(() => {
-            // Browsers block sound until the first user interaction on screen
             isPlaying = false;
         });
     }
 
-    // Attempt autoplay immediately on page load
+    // 1. Try playing immediately on load
     attemptPlayAudio();
 
-    // Listeners on window capture phase to start music on ANY initial gesture (touch/scroll/click anywhere)
-    const unlockEvents = ['pointerdown', 'touchstart', 'mousedown', 'keydown', 'scroll', 'wheel'];
+    // 2. Strict Tap-Only Unlock Events (Removed 'scroll' and 'wheel' for Android compatibility)
+    const unlockEvents = ['pointerdown', 'touchstart', 'click'];
 
     function handleFirstUserGesture() {
         attemptPlayAudio();
@@ -51,15 +50,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function removeUnlockListeners() {
         unlockEvents.forEach(eventType => {
-            window.removeEventListener(eventType, handleFirstUserGesture, { capture: true });
+            window.removeEventListener(eventType, handleFirstUserGesture);
         });
     }
 
+    // Attach listeners for direct tap inputs anywhere on screen
     unlockEvents.forEach(eventType => {
-        window.addEventListener(eventType, handleFirstUserGesture, { capture: true, passive: true });
+        window.addEventListener(eventType, handleFirstUserGesture);
     });
 
-    // Toggle button click handler
+    // 3. Manual Toggle Button Click Handler
     if (musicToggle) {
         musicToggle.addEventListener('click', (e) => {
             e.stopPropagation();

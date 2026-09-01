@@ -586,3 +586,38 @@ canvas { position: absolute; inset: 0; z-index: 2; cursor: crosshair; touch-acti
 #flower-shower-canvas.fade-out {
     opacity: 0;
 }
+
+/* Envelope Stage Background */
+#stage-envelope {
+    background: radial-gradient(circle, #FAF6F0 0%, #E6DFD5 100%);
+}
+
+/* Envelope Body */
+.envelope,
+#envelope-trigger {
+    background-color: #7A1C31 !important; /* Deep Burgundy Red */
+    border: 2px solid #C5A059;             /* Elegant Gold Border */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25),
+                0 5px 15px rgba(122, 28, 49, 0.3);
+}
+
+/* Top Flap */
+.envelope-flap,
+.flap {
+    background-color: #8C223A !important; /* Slightly lighter shade for 3D fold effect */
+    border-bottom: 2px solid #C5A059;
+}
+
+/* Letter/Card inside the envelope */
+.envelope-card,
+.card {
+    background-color: #FFFDF9;
+    color: #2C2C2C;
+}
+
+/* Tap Hint text */
+.tap-hint {
+    color: #C5A059;
+    font-weight: 600;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
