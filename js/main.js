@@ -573,7 +573,64 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // 8. POPUP MODAL LOGIC
+    // 8. GALLERY LIGHTBOX MODAL HANDLER
+    // ==========================================
+    const lightbox = document.getElementById('image-lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxCaption = document.getElementById('lightbox-caption');
+    const lightboxClose = document.getElementById('lightbox-close');
+
+    // Open Lightbox when any story card is clicked
+    document.querySelectorAll('.story-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const img = card.querySelector('img');
+            const caption = card.querySelector('.story-caption');
+
+            if (img && lightbox && lightboxImg) {
+                lightboxImg.src = img.src;
+                lightboxImg.alt = img.alt || '';
+                if (lightboxCaption && caption) {
+                    lightboxCaption.innerText = caption.innerText;
+                }
+                lightbox.classList.remove('hidden-initial');
+                setTimeout(() => lightbox.classList.add('active'), 10);
+            }
+        });
+    });
+
+    // Close Lightbox
+    function closeLightbox() {
+        if (lightbox) {
+            lightbox.classList.remove('active');
+            setTimeout(() => {
+                lightbox.classList.add('hidden-initial');
+                if (lightboxImg) lightboxImg.src = '';
+            }, 300);
+        }
+    }
+
+    if (lightboxClose) {
+        lightboxClose.addEventListener('click', closeLightbox);
+    }
+
+    // Close on backdrop click
+    if (lightbox) {
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+    }
+
+    // Close on ESC key press
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && lightbox && lightbox.classList.contains('active')) {
+            closeLightbox();
+        }
+    });
+
+    // ==========================================
+    // 9. POPUP MODAL LOGIC
     // ==========================================
     const rsvpModal = document.getElementById('rsvp-modal');
     const closeModal = document.getElementById('close-modal');

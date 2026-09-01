@@ -656,3 +656,78 @@ canvas { position: absolute; inset: 0; z-index: 2; cursor: crosshair; touch-acti
     font-style: italic;
     margin-top: 2px;
 }
+
+/* --- GALLERY LIGHTBOX MODAL --- */
+.lightbox-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.88);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.lightbox-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.lightbox-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-content img {
+    max-width: 100%;
+    max-height: 75vh;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    border: 1.5px solid var(--gold);
+}
+
+.lightbox-caption {
+    color: var(--ivory);
+    margin-top: 15px;
+    font-size: 1rem;
+    text-align: center;
+    font-family: 'Lato', sans-serif;
+    letter-spacing: 0.5px;
+    max-width: 90%;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    background: none;
+    border: none;
+    color: var(--ivory);
+    font-size: 2.8rem;
+    cursor: pointer;
+    z-index: 2001;
+    line-height: 1;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.lightbox-close:hover {
+    color: var(--gold);
+    transform: scale(1.15);
+}
+
+/* Cursor affordance for gallery cards */
+.story-card {
+    cursor: pointer;
+}
