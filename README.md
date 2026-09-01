@@ -3,7 +3,8 @@
 An interactive, responsive digital wedding invitation web application built with vanilla web technologies, dynamic canvas animations, and automated RSVP tracking.
 
 🔗 **Live Preview:** https://manish-weds-dipty.netlify.app/
-📊 **RSVP Responses:** [Google Sheets Dashboard]
+
+📊 **RSVP Responses:**
 (https://docs.google.com/spreadsheets/d/1q61EghAwVkNWMSJwz7qYcFAOH852ewvC79Ky3dobfE8/edit?usp=drive_web&ouid=106554714765592406699)
 
 ---
