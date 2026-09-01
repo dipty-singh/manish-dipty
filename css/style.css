@@ -219,6 +219,7 @@ body { background-color: var(--ivory); color: var(--dark); font-family: 'Lato', 
     border-radius: 8px; overflow: hidden; border: 1px solid var(--gold);
 }
 .revealed-date {
+    font-family: 'Tenor Sans', serif !important;
     position: absolute; inset: 0; z-index: 1;
     display: flex; justify-content: center; align-items: center;
     background: var(--ivory); color: var(--dark); font-size: 2.2rem; font-weight: 700;
@@ -233,7 +234,82 @@ canvas { position: absolute; inset: 0; z-index: 2; cursor: crosshair; touch-acti
 
 /* Events */
 .event-list { display: flex; flex-direction: column; gap: 40px; max-width: 500px; margin: 0 auto; }
-.event-item { padding: 30px 20px; border: 1px solid rgba(44, 51, 56, 0.1); border-radius: 8px; }
+.event-item { padding: 30px 20px; border: 1px solid rgba(44, 51, 56, 0.1); border-radius: 8px; position: relative;
+                                                                                                    overflow: hidden;
+                                                                                                    z-index: 1;
+                                                                                                    color: #ffffff !important;}
+
+ /* Ensure text & buttons stay sharp above background layers */
+ .event-item > * {
+     position: relative;
+     z-index: 3;
+ }
+
+ /* Force all headings, paragraphs, and utility classes inside event items to white */
+ .event-item h3,
+ .event-item p,
+ .event-item .italic,
+ .event-item .text-muted,
+ .event-item .text-gold,
+ .event-item .text-dark,
+ .event-item .event-details p {
+     color: #ffffff !important;
+     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); /* Soft drop-shadow for extra contrast */
+ }
+
+ /* Main Section Heading: "The Celebrations" */
+ #events-section > h2 {
+     font-size: 2.8rem !important; /* Adjust size as needed (default was ~2rem) */
+     letter-spacing: 1px;
+     margin-bottom: 30px;
+ }
+
+ /* Individual Event Headings: "Mehndi", "Haldi", "The Wedding" */
+ .event-item h3 {
+     font-size: 2.2rem !important; /* Adjust size as needed (default was ~1.5rem) */
+     margin-bottom: 10px;
+ }
+
+ /* Clear Background Layer (No Blur) */
+ .event-item::before {
+     content: '';
+     position: absolute;
+     inset: 0;
+     background-size: cover;
+     background-position: center;
+     filter: none; /* Blur removed */
+     z-index: 1;
+ }
+
+ /* Dark semi-transparent overlay so white text remains readable over photos */
+ .event-item::after {
+     content: '';
+     position: absolute;
+     inset: 0;
+     background: rgba(0, 0, 0, 0.45);
+     z-index: 2;
+ }
+
+ /* Button contrast updates for dark background */
+ .event-item .outline-btn {
+     border-color: #ffffff !important;
+     color: #ffffff !important;
+ }
+
+ /* 1. Mehndi Background */
+ .event-item:nth-child(1)::before {
+     background-image: url('../images/mehndi.jpg');
+ }
+
+ /* 2. Haldi Background */
+ .event-item:nth-child(2)::before {
+     background-image: url('../images/haldi.jpg');
+ }
+
+ /* 3. Wedding Background */
+ .event-item:nth-child(3)::before {
+     background-image: url('../images/wedding.jpg');
+ }
 .highlight-event { border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
 .event-details { font-size: 0.95rem; line-height: 1.6; }
 
@@ -415,4 +491,73 @@ canvas { position: absolute; inset: 0; z-index: 2; cursor: crosshair; touch-acti
     font-size: 0.85rem;
     color: var(--muted);
     letter-spacing: 0.5px;
+}
+
+/* Footer Container */
+.footer-section {
+    padding: 60px 20px 50px;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.couple-footer-title {
+    font-size: 2.6rem;
+    margin: 5px 0;
+}
+
+.insta-name-link {
+    color: #2C3338;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.insta-name-link:hover {
+    color: #D4A373;
+}
+
+.insta-handles {
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.insta-handles a {
+    color: #7A868C;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.insta-handles a:hover {
+    color: #2C3338;
+}
+
+.dot-separator {
+    margin: 0 6px;
+    color: #7A868C;
+}
+
+.flower-emoji {
+    font-size: 1.8rem;
+    margin: 20px 0 15px;
+}
+
+.footer-date {
+    font-family: 'Tenor Sans', sans-serif !important;
+    font-size: 1.1rem !important;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: #2C3338;
+}
+
+.footer-hashtag {
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: #7A868C;
+}
+
+.scratch-date {
+    font-family: 'Forum', serif !important;
+    font-size: 1.35rem !important;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #2C3338;
 }

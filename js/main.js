@@ -148,8 +148,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                 'countdown-section',
                                 'events-section',
                                 'story-section',
-                                'couple-section',
-                                'rsvp-anchor'
+                                'rsvp-anchor',
+                                'couple-section'
                             ];
 
                             // 1. Unhide all sections
