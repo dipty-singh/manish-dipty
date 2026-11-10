@@ -18,65 +18,140 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 1. AUDIO & MUSIC CONTROL (Global Unlock)
     // ==========================================
+    // ==========================================
+    // 1. AUDIO & MUSIC CONTROL
+    // ==========================================
+
     const bgMusic = document.getElementById('bg-music');
     const musicToggle = document.getElementById('music-toggle');
+
     let isPlaying = false;
+    let musicStarted = false;
 
-    if (musicToggle) {
-        musicToggle.classList.remove('hidden');
+    function updateMusicButton() {
+        if (musicToggle) {
+            musicToggle.innerText = isPlaying ? '🎵' : '🔇';
+        }
     }
 
-    function attemptPlayAudio() {
-        if (!bgMusic || isPlaying) return;
+    // Start music after the visitor's first interaction
+    async function startMusic() {
+        if (!bgMusic || musicStarted) return;
 
-        bgMusic.play().then(() => {
+        try {
+            await bgMusic.play();
+
+            musicStarted = true;
             isPlaying = true;
-            if (musicToggle) musicToggle.innerText = '🎵';
-            removeUnlockListeners();
-        }).catch(() => {
+            updateMusicButton();
+
+            document.removeEventListener('pointerdown', handleFirstTap, true);
+            document.removeEventListener('touchstart', handleFirstTap, true);
+
+        } catch (error) {
             isPlaying = false;
+            updateMusicButton();
+        }
+    }
+
+    // Do not let the first tap on the music button trigger two actions
+    function handleFirstTap(event) {
+        if (event.target.closest('#music-toggle')) return;
+        startMusic();
+    }
+
+    // Try autoplay when opening the website.
+    // If the browser blocks it, the first tap will start the song.
+    if (bgMusic) {
+        bgMusic.play().catch(() => {
+            isPlaying = false;
+            updateMusicButton();
         });
     }
 
-    // 1. Try playing immediately on load
-    attemptPlayAudio();
+    document.addEventListener('pointerdown', handleFirstTap, true);
+    document.addEventListener('touchstart', handleFirstTap, true);
 
-    // 2. Strict Tap-Only Unlock Events (Removed 'scroll' and 'wheel' for Android compatibility)
-    const unlockEvents = ['pointerdown', 'touchstart', 'click'];
+    // Manual music button
+    if (musicToggle) {
+        musicToggle.addEventListener('click', async (event) => {
+            event.stopPropagation();
 
-    function handleFirstUserGesture() {
-        attemptPlayAudio();
-    }
+            if (!bgMusic) return;
 
-    function removeUnlockListeners() {
-        unlockEvents.forEach(eventType => {
-            window.removeEventListener(eventType, handleFirstUserGesture);
+            if (bgMusic.paused) {
+                try {
+                    await bgMusic.play();
+                    musicStarted = true;
+                    isPlaying = true;
+                } catch (error) {
+                    isPlaying = false;
+                }
+            } else {
+                bgMusic.pause();
+                isPlaying = false;
+            }
+
+            updateMusicButton();
         });
     }
 
-    // Attach listeners for direct tap inputs anywhere on screen
-    unlockEvents.forEach(eventType => {
-        window.addEventListener(eventType, handleFirstUserGesture);
+    // Keep the button icon synchronized
+    bgMusic?.addEventListener('play', () => {
+        isPlaying = true;
+        updateMusicButton();
     });
 
-    // 3. Manual Toggle Button Click Handler
-    if (musicToggle) {
-        musicToggle.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (bgMusic) {
-                if (isPlaying) {
-                    bgMusic.pause();
-                    musicToggle.innerText = '🔇';
-                    isPlaying = false;
-                } else {
-                    bgMusic.play();
-                    musicToggle.innerText = '🎵';
-                    isPlaying = true;
-                }
-            }
-        });
+    bgMusic?.addEventListener('pause', () => {
+        isPlaying = false;
+        updateMusicButton();
+    });
+
+    // ==========================================
+    // PAUSE AND RESUME MUSIC WHEN LEAVING / RETURNING
+    // ==========================================
+
+    let shouldResumeMusic = false;
+
+    // Pause music when visitor leaves the website
+    function pauseMusicOnLeave() {
+        if (bgMusic && !bgMusic.paused) {
+            shouldResumeMusic = true;
+            bgMusic.pause();
+        }
     }
 
+    // Resume music when visitor returns
+    async function resumeMusicOnReturn() {
+        if (!bgMusic || !shouldResumeMusic) return;
+
+        try {
+            await bgMusic.play();
+            shouldResumeMusic = false;
+        } catch (error) {
+            // Browser may require another user interaction
+            console.log('Music resume requires user interaction.');
+        }
+    }
+
+    // Switching to another app or browser tab
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            pauseMusicOnLeave();
+        } else {
+            resumeMusicOnReturn();
+        }
+    });
+
+    // Leaving the page
+    window.addEventListener('pagehide', pauseMusicOnLeave);
+
+    // Returning through browser Back / Forward
+    window.addEventListener('pageshow', () => {
+        if (!document.hidden) {
+            resumeMusicOnReturn();
+        }
+    });
     // ==========================================
     // 2. SCRATCH CARD SETUP (Global Scope)
     // ==========================================

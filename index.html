@@ -18,10 +18,12 @@
 <body>
 
 <!-- Audio element configured for instant playback -->
-<audio id="bg-music" loop autoplay playsinline>
+<audio id="bg-music" loop preload="auto">
     <source src="music/shiv-shakti.mp3" type="audio/mpeg">
 </audio>
-<button id="music-toggle" class="floating-btn">🎵</button>
+<button id="music-toggle" class="floating-btn"
+        title="Play or pause wedding music"
+        aria-label="Play or pause wedding music">🎵</button>
 
 <!-- Stage 1: Ganesh Ji (Full Background) -->
 <section id="stage-ganesh" class="full-screen-section bg-ivory" data-aos="fade-up" data-aos-easing="linear">
