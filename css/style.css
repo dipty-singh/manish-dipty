@@ -805,3 +805,51 @@ canvas { position: absolute; inset: 0; z-index: 2; cursor: crosshair; touch-acti
 .carousel-dot.active {
     background: white;
 }
+
+.story-card .story-img-frame img {
+    cursor: zoom-in;
+}
+
+/* Hide carousel arrows in normal view */
+.slideshow-container .carousel-btn,
+.slideshow-container .carousel-arrow {
+    display: none !important;
+}
+
+/* Arrows visible only in zoom mode */
+.lightbox-nav {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.85);
+    color: #333;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 10002;
+}
+
+.lightbox-prev {
+    left: 25px;
+}
+
+.lightbox-next {
+    right: 25px;
+}
+
+.lightbox-nav:hover {
+    background: white;
+}
+
+@media (max-width: 600px) {
+    .lightbox-prev {
+        left: 10px;
+    }
+
+    .lightbox-next {
+        right: 10px;
+    }
+}

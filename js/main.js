@@ -612,112 +612,219 @@ document.addEventListener('DOMContentLoaded', () => {
     // 4. COUPLE PHOTO SLIDESHOW
     // ==========================================
 
-   document.querySelectorAll('.slideshow-container').forEach(container => {
-       const slides = container.querySelectorAll('.slide');
 
-        // Activate the first image immediately
-           slides.forEach((slide, index) => {
-               slide.classList.toggle('active', index === 0);
-           });
+// ==========================================
+// 4. COUPLE PHOTO SLIDESHOW
+// ==========================================
 
-       const dotsContainer = container.querySelector('.carousel-dots');
-       const prevBtn = container.querySelector('.prev');
-       const nextBtn = container.querySelector('.next');
+document.querySelectorAll('.slideshow-container').forEach(slideshow => {
+    const slides = Array.from(slideshow.querySelectorAll('.slide'));
+    const dotsContainer = slideshow.querySelector('.carousel-dots');
+    const previousButton = slideshow.querySelector('.carousel-prev, .prev');
+    const nextButton = slideshow.querySelector('.carousel-next, .next');
 
-       let currentIndex = 0;
-       let autoSlide;
+    if (!slides.length) return;
 
-       slides.forEach((_, index) => {
-           const dot = document.createElement('span');
-           dot.classList.add('carousel-dot');
+    let currentSlide = 0;
+    let autoplayTimer;
+    let touchStartX = 0;
 
-           if (index === 0) dot.classList.add('active');
+    // Create dots only if they don't already exist
+    if (dotsContainer && !dotsContainer.children.length) {
+        slides.forEach((_, index) => {
+            const dot = document.createElement('button');
+            dot.type = 'button';
+            dot.className = 'carousel-dot';
+            dot.setAttribute('aria-label', `Show photo ${index + 1}`);
+            dotsContainer.appendChild(dot);
+        });
+    }
 
-           dot.addEventListener('click', () => {
-               showSlide(index);
-               restartAutoSlide();
-           });
+    const dots = dotsContainer
+        ? Array.from(dotsContainer.querySelectorAll('.carousel-dot'))
+        : [];
 
-           dotsContainer.appendChild(dot);
-       });
+    function showSlide(index) {
+        currentSlide = (index + slides.length) % slides.length;
 
-       const dots = dotsContainer.querySelectorAll('.carousel-dot');
+        slides.forEach((slide, i) => {
+            slide.classList.toggle('active', i === currentSlide);
+            slide.setAttribute('aria-hidden', i === currentSlide ? 'false' : 'true');
+        });
 
-       function showSlide(index) {
-           currentIndex = (index + slides.length) % slides.length;
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === currentSlide);
 
-           slides.forEach((slide, i) => {
-               slide.classList.toggle('active', i === currentIndex);
-               dots[i].classList.toggle('active', i === currentIndex);
-           });
-       }
+            if (i === currentSlide) {
+                dot.setAttribute('aria-current', 'true');
+            } else {
+                dot.removeAttribute('aria-current');
+            }
+        });
+    }
 
-       function nextSlide() {
-           showSlide(currentIndex + 1);
-       }
+    function stopAutoplay() {
+        clearInterval(autoplayTimer);
+    }
 
-       function prevSlide() {
-           showSlide(currentIndex - 1);
-       }
+    function startAutoplay() {
+        stopAutoplay();
+        autoplayTimer = setInterval(() => {
+            showSlide(currentSlide + 1);
+        }, 2000);
+    }
 
-       function restartAutoSlide() {
-           clearInterval(autoSlide);
-           autoSlide = setInterval(nextSlide, 2000);
-       }
+    previousButton?.addEventListener('click', () => {
+        showSlide(currentSlide - 1);
+        startAutoplay();
+    });
 
-       nextBtn.addEventListener('click', () => {
-           nextSlide();
-           restartAutoSlide();
-       });
+    nextButton?.addEventListener('click', () => {
+        showSlide(currentSlide + 1);
+        startAutoplay();
+    });
 
-       prevBtn.addEventListener('click', () => {
-           prevSlide();
-           restartAutoSlide();
-       });
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            showSlide(index);
+            startAutoplay();
+        });
+    });
 
-       autoSlide = setInterval(nextSlide, 2000);
-   });
+    slideshow.addEventListener('mouseenter', stopAutoplay);
+    slideshow.addEventListener('mouseleave', startAutoplay);
+    slideshow.addEventListener('focusin', stopAutoplay);
+    slideshow.addEventListener('focusout', startAutoplay);
+
+    slideshow.addEventListener('touchstart', event => {
+        touchStartX = event.changedTouches[0].screenX;
+    }, { passive: true });
+
+    slideshow.addEventListener('touchend', event => {
+        const deltaX = event.changedTouches[0].screenX - touchStartX;
+
+        if (Math.abs(deltaX) > 40) {
+            showSlide(currentSlide + (deltaX < 0 ? 1 : -1));
+            startAutoplay();
+        }
+    }, { passive: true });
+
+    showSlide(0);
+    startAutoplay();
+});
+
+
+
+// ==========================================
+// 8. GALLERY LIGHTBOX MODAL HANDLER
+// ==========================================
+
 
     // ==========================================
     // 8. GALLERY LIGHTBOX MODAL HANDLER
     // ==========================================
+
     const lightbox = document.getElementById('image-lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
     const lightboxCaption = document.getElementById('lightbox-caption');
     const lightboxClose = document.getElementById('lightbox-close');
+    const lightboxPrev = document.getElementById('lightbox-prev');
+    const lightboxNext = document.getElementById('lightbox-next');
 
-    // Open Lightbox when any story card is clicked
-    document.querySelectorAll('.story-card').forEach(card => {
-        card.addEventListener('click', () => {
-            const img = card.querySelector('img');
-            const caption = card.querySelector('.story-caption');
+    let activeSlides = [];
+    let activeSlideIndex = 0;
 
-            if (img && lightbox && lightboxImg) {
-                lightboxImg.src = img.src;
-                lightboxImg.alt = img.alt || '';
-                if (lightboxCaption && caption) {
-                    lightboxCaption.innerText = caption.innerText;
-                }
-                lightbox.classList.remove('hidden-initial');
-                setTimeout(() => lightbox.classList.add('active'), 10);
-            }
-        });
-    });
+    function showLightboxSlide(index) {
+        if (!activeSlides.length || !lightboxImg) return;
 
-    // Close Lightbox
-    function closeLightbox() {
-        if (lightbox) {
-            lightbox.classList.remove('active');
-            setTimeout(() => {
-                lightbox.classList.add('hidden-initial');
-                if (lightboxImg) lightboxImg.src = '';
-            }, 300);
+        activeSlideIndex =
+            (index + activeSlides.length) % activeSlides.length;
+
+        const img = activeSlides[activeSlideIndex];
+
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt || 'Enlarged photo';
+
+        const caption = img.closest('.story-card')
+            ?.querySelector('.story-caption');
+
+        if (lightboxCaption) {
+            lightboxCaption.textContent = caption?.textContent || '';
+        }
+
+        const showArrows = activeSlides.length > 1;
+
+        if (lightboxPrev) {
+            lightboxPrev.style.display = showArrows ? 'block' : 'none';
+        }
+
+        if (lightboxNext) {
+            lightboxNext.style.display = showArrows ? 'block' : 'none';
         }
     }
 
-    if (lightboxClose) {
-        lightboxClose.addEventListener('click', closeLightbox);
+    // Only story-card images can open in zoom.
+    // The invitation/hero carousel above the invitation text is excluded.
+    document.querySelectorAll('.story-card .story-img-frame img').forEach(img => {
+        img.addEventListener('click', () => {
+            if (!lightbox || !lightboxImg) return;
+
+            const container = img.closest('.slideshow-container');
+
+            activeSlides = container
+                ? Array.from(container.querySelectorAll('.slide'))
+                : [img];
+
+            if (!activeSlides.length) activeSlides = [img];
+
+            activeSlideIndex = activeSlides.indexOf(img);
+
+            showLightboxSlide(activeSlideIndex);
+
+            lightbox.classList.remove('hidden-initial');
+            lightbox.classList.add('active');
+        });
+    });
+
+    lightboxNext?.addEventListener('click', () => {
+        showLightboxSlide(activeSlideIndex + 1);
+    });
+
+    lightboxPrev?.addEventListener('click', () => {
+        showLightboxSlide(activeSlideIndex - 1);
+    });
+
+    function closeImageLightbox() {
+        if (!lightbox) return;
+
+        lightbox.classList.remove('active');
+        lightbox.classList.add('hidden-initial');
     }
+
+    lightboxClose?.addEventListener('click', closeImageLightbox);
+
+    lightbox?.addEventListener('click', event => {
+        if (event.target === lightbox) {
+            closeImageLightbox();
+        }
+    });
+
+    document.addEventListener('keydown', event => {
+        if (!lightbox?.classList.contains('active')) return;
+
+        if (event.key === 'Escape') {
+            closeImageLightbox();
+        }
+
+        if (event.key === 'ArrowRight') {
+            showLightboxSlide(activeSlideIndex + 1);
+        }
+
+        if (event.key === 'ArrowLeft') {
+            showLightboxSlide(activeSlideIndex - 1);
+        }
+    });
+
 
     // Close on backdrop click
     if (lightbox) {
