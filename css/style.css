@@ -853,3 +853,32 @@ canvas { position: absolute; inset: 0; z-index: 2; cursor: crosshair; touch-acti
         right: 10px;
     }
 }
+
+.arch-frame.large-arch {
+    width: min(95%, 500px);
+    margin-left: auto;
+    margin-right: auto;
+    border: 2px solid #C5A059;
+    box-shadow:
+        0 0 0 4px rgba(197, 160, 89, 0.12),
+        0 8px 25px rgba(120, 87, 35, 0.12);
+    box-sizing: border-box;
+}
+
+.invitation-line {
+    max-width: 650px !important;
+    width: 98%;
+    margin: 28px auto 0 !important;
+    padding: 0;
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(21px, 3.8vw, 27px);
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: 0.2px;
+    color: #9A743C;
+    text-align: center;
+}
+
+.invitation-line b {
+    font-weight: 500;
+}
