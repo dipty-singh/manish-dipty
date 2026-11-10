@@ -952,16 +952,18 @@ canvas { position: absolute; inset: 0; z-index: 2; cursor: crosshair; touch-acti
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    flex-wrap: wrap;
-    gap: 8px;
+    flex-wrap: nowrap;
+    gap: 5px;
+    white-space: nowrap;
 }
 
 .dress-code-label {
     font-family: 'Playfair Display', serif;
     font-size: 11px;
     font-weight: 700;
-    letter-spacing: 1.5px;
+    letter-spacing: 1px;
     color: #FFFFFF;
+    white-space: nowrap;
 }
 
 .dress-code-message {
@@ -970,4 +972,5 @@ canvas { position: absolute; inset: 0; z-index: 2; cursor: crosshair; touch-acti
     font-style: italic;
     color: #FFFFFF;
     line-height: 1.4;
+    white-space: nowrap;
 }
