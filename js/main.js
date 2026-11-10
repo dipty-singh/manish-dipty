@@ -225,14 +225,50 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 4. COUPLE PHOTO SLIDESHOW
     // ==========================================
-    const slides = document.querySelectorAll('.slide');
-    if (slides.length > 0) {
+    const slideshow = document.querySelector('.slideshow-container');
+    if (slideshow) {
+        const slides = Array.from(slideshow.querySelectorAll('.slide'));
+        const dots = Array.from(slideshow.querySelectorAll('.carousel-dot'));
+        const previousButton = slideshow.querySelector('.carousel-prev');
+        const nextButton = slideshow.querySelector('.carousel-next');
         let currentSlide = 0;
-        setInterval(() => {
-            slides[currentSlide].classList.remove('active');
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides[currentSlide].classList.add('active');
-        }, 3000);
+        let autoplayTimer;
+        let touchStartX = 0;
+
+        const showSlide = (index) => {
+            currentSlide = (index + slides.length) % slides.length;
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === currentSlide);
+                slide.setAttribute('aria-hidden', i === currentSlide ? 'false' : 'true');
+            });
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentSlide);
+                if (i === currentSlide) dot.setAttribute('aria-current', 'true');
+                else dot.removeAttribute('aria-current');
+            });
+        };
+
+        const stopAutoplay = () => window.clearInterval(autoplayTimer);
+        const startAutoplay = () => {
+            stopAutoplay();
+            autoplayTimer = window.setInterval(() => showSlide(currentSlide + 1), 4000);
+        };
+
+        previousButton?.addEventListener('click', () => { showSlide(currentSlide - 1); startAutoplay(); });
+        nextButton?.addEventListener('click', () => { showSlide(currentSlide + 1); startAutoplay(); });
+        dots.forEach((dot, i) => dot.addEventListener('click', () => { showSlide(i); startAutoplay(); }));
+        slideshow.addEventListener('mouseenter', stopAutoplay);
+        slideshow.addEventListener('mouseleave', startAutoplay);
+        slideshow.addEventListener('focusin', stopAutoplay);
+        slideshow.addEventListener('focusout', startAutoplay);
+        slideshow.addEventListener('touchstart', event => { touchStartX = event.changedTouches[0].screenX; }, { passive: true });
+        slideshow.addEventListener('touchend', event => {
+            const deltaX = event.changedTouches[0].screenX - touchStartX;
+            if (Math.abs(deltaX) > 40) showSlide(currentSlide + (deltaX < 0 ? 1 : -1));
+        }, { passive: true });
+
+        showSlide(0);
+        startAutoplay();
     }
 
     // ==========================================
