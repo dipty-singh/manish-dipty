@@ -952,9 +952,12 @@ canvas { position: absolute; inset: 0; z-index: 2; cursor: crosshair; touch-acti
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     gap: 5px;
-    white-space: nowrap;
+    padding: 0 12px;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
 }
 
 .dress-code-label {
@@ -972,5 +975,4 @@ canvas { position: absolute; inset: 0; z-index: 2; cursor: crosshair; touch-acti
     font-style: italic;
     color: #FFFFFF;
     line-height: 1.4;
-    white-space: nowrap;
 }
