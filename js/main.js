@@ -609,6 +609,76 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
+    // 4. COUPLE PHOTO SLIDESHOW
+    // ==========================================
+
+   document.querySelectorAll('.slideshow-container').forEach(container => {
+       const slides = container.querySelectorAll('.slide');
+
+        // Activate the first image immediately
+           slides.forEach((slide, index) => {
+               slide.classList.toggle('active', index === 0);
+           });
+
+       const dotsContainer = container.querySelector('.carousel-dots');
+       const prevBtn = container.querySelector('.prev');
+       const nextBtn = container.querySelector('.next');
+
+       let currentIndex = 0;
+       let autoSlide;
+
+       slides.forEach((_, index) => {
+           const dot = document.createElement('span');
+           dot.classList.add('carousel-dot');
+
+           if (index === 0) dot.classList.add('active');
+
+           dot.addEventListener('click', () => {
+               showSlide(index);
+               restartAutoSlide();
+           });
+
+           dotsContainer.appendChild(dot);
+       });
+
+       const dots = dotsContainer.querySelectorAll('.carousel-dot');
+
+       function showSlide(index) {
+           currentIndex = (index + slides.length) % slides.length;
+
+           slides.forEach((slide, i) => {
+               slide.classList.toggle('active', i === currentIndex);
+               dots[i].classList.toggle('active', i === currentIndex);
+           });
+       }
+
+       function nextSlide() {
+           showSlide(currentIndex + 1);
+       }
+
+       function prevSlide() {
+           showSlide(currentIndex - 1);
+       }
+
+       function restartAutoSlide() {
+           clearInterval(autoSlide);
+           autoSlide = setInterval(nextSlide, 2000);
+       }
+
+       nextBtn.addEventListener('click', () => {
+           nextSlide();
+           restartAutoSlide();
+       });
+
+       prevBtn.addEventListener('click', () => {
+           prevSlide();
+           restartAutoSlide();
+       });
+
+       autoSlide = setInterval(nextSlide, 2000);
+   });
+
+    // ==========================================
     // 8. GALLERY LIGHTBOX MODAL HANDLER
     // ==========================================
     const lightbox = document.getElementById('image-lightbox');
