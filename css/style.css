@@ -882,3 +882,90 @@ canvas { position: absolute; inset: 0; z-index: 2; cursor: crosshair; touch-acti
 .invitation-line b {
     font-weight: 500;
 }
+
+.dress-code-section {
+    max-width: 450px;
+    margin: 40px auto;
+    padding: 25px 20px;
+    text-align: center;
+}
+
+.dress-code-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    color: #9A743C;
+    margin-bottom: 25px;
+}
+
+.dress-code-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin: 20px 0;
+    text-align: left;
+}
+
+.dress-code-color {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 2px solid #C5A059;
+    flex-shrink: 0;
+}
+
+.dress-code-color.green {
+    background: #47764B;
+}
+
+.dress-code-color.yellow {
+    background: #F2D34F;
+}
+
+.dress-code-color.bright {
+    background: linear-gradient(
+        135deg,
+        #E85D75,
+        #F5A623,
+        #8D65B5,
+        #36A6A0
+    );
+}
+
+.dress-code-item h3 {
+    font-family: 'Playfair Display', serif;
+    color: #80602F;
+    font-size: 19px;
+    margin: 0;
+}
+
+.dress-code-item p {
+    font-family: 'Cormorant Garamond', serif;
+    color: #666;
+    font-size: 17px;
+    margin: 3px 0 0;
+}
+
+.event-dress-code {
+    margin-top: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.dress-code-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #FFFFFF;
+}
+
+.dress-code-message {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-style: italic;
+    color: #FFFFFF;
+    line-height: 1.4;
+}
