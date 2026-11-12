@@ -367,7 +367,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 6. COUNTDOWN TIMER
     // ==========================================
     function startCountdown() {
-        const target = new Date(CONFIG.WEDDING_DATE).getTime();
+        const target = new Date('2027-02-11T00:00:00+05:30').getTime();
         setInterval(() => {
             const now = new Date().getTime();
             const diff = target - now;
